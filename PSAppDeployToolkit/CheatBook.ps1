@@ -6,3 +6,6 @@ Get-ChildItem $($adtSession.DirFiles) -Recurse -Filter "*inf" | ForEach-Object {
 
 # Get last update/write time
 Get-ChildItem "$env:ProgramData\Files\file.txt" | where{$_.LastWriteTime -ge [datetime]::parseexact($appScriptDate, 'dd/MM/yyyy', $null)}
+
+# Get Full Name of the folder including its path
+Get-ChildItem -Path $env:ProgramData | Where {$_.Name -match 'FoldeName'} |select -exp fullname
