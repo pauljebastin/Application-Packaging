@@ -1,3 +1,12 @@
+# Application Uninstallation
+$appName = Get-ADTApplication -Name "$($adtSession.AppName)"
+if ($appName.Count -gt 0) {
+  Uninstall-ADTApplication -Name "$($adtSession.AppName)" -ApplicationType 'EXE' -ArgumentList '/S'
+  Start-Sleep -Seconds 5
+}else {
+  Write-ADTLogEntry -Message "$($adtSession.AppName) application was not found." -Severity 1
+}
+
 # Add Certificate to TrustedPublisher Folder
 Import-Certificate -FilePath "$($adtSession.DirSupportFiles)\Certificate.cer" -CertStoreLocation 'Cert:\LocalMachine\TrustedPublisher'
 
