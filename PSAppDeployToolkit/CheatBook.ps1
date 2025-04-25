@@ -7,6 +7,12 @@ if ($appName.Count -gt 0) {
   Write-ADTLogEntry -Message "$($adtSession.AppName) application was not found." -Severity 1
 }
 
+# Install Drivers
+Get-ChildItem $($adtSession.DirFiles) -Recurse -Filter "*inf" | ForEach-Object { 
+  Write-ADTLogEntry -Message "Installing: $($_.FullName)"
+  PNPUtil.exe /add-driver $_.FullName /install
+}
+
 # Add Certificate to TrustedPublisher Folder
 Import-Certificate -FilePath "$($adtSession.DirSupportFiles)\Certificate.cer" -CertStoreLocation 'Cert:\LocalMachine\TrustedPublisher'
 
